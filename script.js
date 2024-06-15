@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("bingo-card").style.display = "block";
                 document.getElementById("setup").style.display = "none";
                 document.getElementById("share-link").style.display = "inline-block";
+                console.log("Stratagems generated and displayed.");
             };
 
             const copyToClipboard = text => {
@@ -115,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         document.getElementById("setup").style.display = "none";
                         document.getElementById("bingo-card").style.display = "block";
                         document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
+                        console.log("Stratagems loaded from URL.");
                     } catch (e) {
                         console.error("Error parsing hash parameters", e);
                     }
