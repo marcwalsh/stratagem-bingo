@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const playerTitle = document.createElement("h4");
                     playerTitle.textContent = `${player.name}'s Stratagems:`;
+                    playerTitle.dataset.level = player.level;
                     playerDiv.appendChild(playerTitle);
 
                     const bingoGrid = document.createElement("div");
@@ -56,7 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     bingoGrids.appendChild(playerDiv);
                 });
 
-                document.getElementById("share-link").style.display = "block";
+                document.getElementById("bingo-card").style.display = "block";
+                document.getElementById("setup").style.display = "none";
+                document.getElementById("share-link").style.display = "inline-block";
             };
 
             const copyToClipboard = text => {
@@ -90,10 +93,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const players = [];
                 document.querySelectorAll('.player-section').forEach(section => {
                     const name = section.querySelector('h4').textContent.split("'s")[0];
+                    const level = parseInt(section.querySelector('h4').dataset.level, 10);
                     const stratagems = Array.from(section.querySelectorAll('.bingo-cell img')).map(img => {
                         return stratagems.find(s => s.name === img.alt).id;
                     });
-                    const level = parseInt(section.querySelector('h4').dataset.level, 10);
                     players.push({ name, level, stratagems });
                 });
 
