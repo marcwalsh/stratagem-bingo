@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(data => {
             const stratagems = data.stratagems;
+
             const shuffleArray = array => {
                 for (let i = array.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -14,56 +15,81 @@ document.addEventListener("DOMContentLoaded", () => {
                 return stratagems.filter(stratagem => stratagem.level <= level);
             };
 
-            document.getElementById("generate").addEventListener("click", () => {
-                const players = [];
-                for (let i = 1; i <= 4; i++) {
-                    const name = document.getElementById(`player${i}-name`).value;
-                    const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
-                    if (name && level) {
-                        players.push({ name, level });
-                    }
+            const getHashParams = () => {
+                const hash = window.location.hash.substr(1);
+                if (hash) {
+                    return JSON.parse(atob(hash));
                 }
+                return null;
+            };
 
-                if (players.length > 0) {
+            const setHashParams = (params) => {
+                window.location.hash = btoa(JSON.stringify(params));
+            };
+
+            const generateStratagemsForPlayers = (players) => {
+                const bingoGrids = document.getElementById("bingo-grids");
+                bingoGrids.innerHTML = "";
+
+                players.forEach(player => {
+                    const filteredStratagems = filterStratagemsByLevel(stratagems, player.level);
+                    shuffleArray(filteredStratagems);
+
+                    const playerDiv = document.createElement("div");
+                    playerDiv.className = "player-section";
+
+                    const playerTitle = document.createElement("h4");
+                    playerTitle.textContent = `${player.name}'s Stratagems:`;
+                    playerDiv.appendChild(playerTitle);
+
+                    const bingoGrid = document.createElement("div");
+                    bingoGrid.className = "bingo-grid";
+
+                    for (let i = 0; i < 4; i++) {
+                        const cell = document.createElement("div");
+                        cell.className = "bingo-cell";
+                        const img = document.createElement("img");
+                        img.src = filteredStratagems[i].image;
+                        img.alt = filteredStratagems[i].name;
+                        const text = document.createElement("span");
+                        text.textContent = filteredStratagems[i].name.replace(/_/g, ' ');
+                        cell.appendChild(img);
+                        cell.appendChild(text);
+                        bingoGrid.appendChild(cell);
+                    }
+
+                    playerDiv.appendChild(bingoGrid);
+                    bingoGrids.appendChild(playerDiv);
+                });
+            };
+
+            const init = () => {
+                const players = getHashParams();
+                if (players) {
                     document.getElementById("setup").style.display = "none";
                     document.getElementById("bingo-card").style.display = "block";
                     document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
-
-                    const bingoGrids = document.getElementById("bingo-grids");
-                    bingoGrids.innerHTML = "";
-
-                    players.forEach(player => {
-                        const filteredStratagems = filterStratagemsByLevel(stratagems, player.level);
-                        shuffleArray(filteredStratagems);
-
-                        const playerDiv = document.createElement("div");
-                        playerDiv.className = "player-section";
-
-                        const playerTitle = document.createElement("h4");
-                        playerTitle.textContent = `${player.name}'s Stratagems:`;
-                        playerDiv.appendChild(playerTitle);
-
-                        const bingoGrid = document.createElement("div");
-                        bingoGrid.className = "bingo-grid";
-
-                        for (let i = 0; i < 4; i++) {
-                            const cell = document.createElement("div");
-                            cell.className = "bingo-cell";
-                            const img = document.createElement("img");
-                            img.src = filteredStratagems[i].image;
-                            img.alt = filteredStratagems[i].name;
-                            const text = document.createElement("span");
-                            text.textContent = filteredStratagems[i].name.replace(/_/g, ' ');
-                            cell.appendChild(img);
-                            cell.appendChild(text);
-                            bingoGrid.appendChild(cell);
+                    generateStratagemsForPlayers(players);
+                } else {
+                    document.getElementById("generate").addEventListener("click", () => {
+                        const players = [];
+                        for (let i = 1; i <= 4; i++) {
+                            const name = document.getElementById(`player${i}-name`).value;
+                            const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
+                            if (name && level) {
+                                players.push({ name, level });
+                            }
                         }
 
-                        playerDiv.appendChild(bingoGrid);
-                        bingoGrids.appendChild(playerDiv);
+                        if (players.length > 0) {
+                            setHashParams(players);
+                            window.location.reload();
+                        }
                     });
                 }
-            });
+            };
+
+            init();
         });
 });
 
