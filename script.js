@@ -19,15 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 return stratagems.find(stratagem => stratagem.id === id);
             };
 
-            const generateStratagemsForPlayers = (players, stratagems) => {
+            const generateStratagemsForPlayers = (players) => {
                 const bingoGrids = document.getElementById("bingo-grids");
                 bingoGrids.innerHTML = "";
 
                 players.forEach(player => {
-                    const filteredStratagems = filterStratagemsByLevel(stratagems, player.level);
-                    shuffleArray(filteredStratagems);
-                    player.stratagems = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
-
                     const playerDiv = document.createElement("div");
                     playerDiv.className = "player-section";
 
@@ -79,33 +75,31 @@ document.addEventListener("DOMContentLoaded", () => {
                     const name = document.getElementById(`player${i}-name`).value;
                     const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
                     if (name && level) {
-                        players.push({ name, level });
+                        const filteredStratagems = filterStratagemsByLevel(stratagems, level);
+                        shuffleArray(filteredStratagems);
+                        const stratagemsSelected = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
+                        players.push({ name, level, stratagems: stratagemsSelected });
                     }
                 }
 
                 if (players.length > 0) {
-                    generateStratagemsForPlayers(players, stratagems);
+                    generateStratagemsForPlayers(players);
+                    const encodedData = btoa(JSON.stringify(players));
+                    const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
+                    document.getElementById("generated-link").value = generatedUrl;
+                    document.getElementById("share-link").style.display = "inline-block";
                 } else {
                     console.error("No valid players found");
                 }
             });
 
             document.getElementById("share-link").addEventListener("click", () => {
-                const players = [];
-                document.querySelectorAll('.player-section').forEach(section => {
-                    const name = section.querySelector('h4').textContent.split("'s")[0];
-                    const level = parseInt(section.querySelector('h4').dataset.level, 10);
-                    const stratagemsArray = Array.from(section.querySelectorAll('.bingo-cell img')).map(img => {
-                        const stratagem = stratagems.find(s => s.name === img.alt);
-                        return stratagem ? stratagem.id : null;
-                    }).filter(id => id !== null);
-                    players.push({ name, level, stratagems: stratagemsArray });
-                });
-
-                const encodedData = btoa(JSON.stringify(players));
-                const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
-                document.getElementById("generated-link").value = generatedUrl;
-                copyToClipboard(generatedUrl);
+                const generatedUrl = document.getElementById("generated-link").value;
+                if (generatedUrl) {
+                    copyToClipboard(generatedUrl);
+                } else {
+                    alert("No URL generated yet.");
+                }
             });
 
             const init = () => {
@@ -113,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (hash) {
                     try {
                         const players = JSON.parse(atob(hash));
-                        generateStratagemsForPlayers(players, stratagems);
+                        generateStratagemsForPlayers(players);
                         document.getElementById("setup").style.display = "none";
                         document.getElementById("bingo-card").style.display = "block";
                         document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
