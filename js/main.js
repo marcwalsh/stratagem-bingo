@@ -1,7 +1,5 @@
 // main.js
 
-// main.js
-
 const init = () => {
     fetch('stratagems.json')
         .then(response => response.json())
@@ -12,7 +10,7 @@ const init = () => {
             if (hash) {
                 try {
                     const players = JSON.parse(atob(hash));
-                    generateStratagemsForPlayers(players);
+                    displayStratagems(players);
                     document.getElementById("setup").style.display = "none";
                     document.getElementById("bingo-card").style.display = "block";
                     document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';

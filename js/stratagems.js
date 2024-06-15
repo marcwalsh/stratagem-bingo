@@ -10,28 +10,7 @@ const getStratagemById = id => {
     return stratagems.find(stratagem => stratagem.id === id);
 };
 
-const displayStratagemsWithAnimation = (player, stratagemsSelected) => {
-    const bingoGrid = document.createElement("div");
-    bingoGrid.className = "bingo-grid";
-    player.stratagems.forEach((id, index) => {
-        const stratagem = getStratagemById(id);
-        const cell = document.createElement("div");
-        cell.className = "bingo-cell";
-        const img = document.createElement("img");
-        img.src = stratagem.image;
-        img.alt = stratagem.name;
-        const text = document.createElement("span");
-        text.textContent = stratagem.name.replace(/_/g, ' ');
-        cell.appendChild(img);
-        cell.appendChild(text);
-        setTimeout(() => {
-            bingoGrid.appendChild(cell);
-        }, index * 200); // delay each cell's appearance
-    });
-    return bingoGrid;
-};
-
-const generateStratagemsForPlayers = players => {
+const displayStratagems = players => {
     const bingoGrids = document.getElementById("bingo-grids");
     bingoGrids.innerHTML = "";
 
@@ -44,7 +23,24 @@ const generateStratagemsForPlayers = players => {
         playerTitle.dataset.level = player.level;
         playerDiv.appendChild(playerTitle);
 
-        playerDiv.appendChild(displayStratagemsWithAnimation(player, player.stratagems));
+        const bingoGrid = document.createElement("div");
+        bingoGrid.className = "bingo-grid";
+        player.stratagems.forEach((id, index) => {
+            const stratagem = getStratagemById(id);
+            const cell = document.createElement("div");
+            cell.className = "bingo-cell";
+            const img = document.createElement("img");
+            img.src = stratagem.image;
+            img.alt = stratagem.name;
+            const text = document.createElement("span");
+            text.textContent = stratagem.name.replace(/_/g, ' ');
+            cell.appendChild(img);
+            cell.appendChild(text);
+            setTimeout(() => {
+                bingoGrid.appendChild(cell);
+            }, index * 200); // delay each cell's appearance
+        });
+        playerDiv.appendChild(bingoGrid);
         bingoGrids.appendChild(playerDiv);
     });
 
