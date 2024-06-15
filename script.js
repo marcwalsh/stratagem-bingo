@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 return stratagems.filter(stratagem => stratagem.level <= level);
             };
 
+            const getStratagemById = (id) => {
+                return stratagems.find(stratagem => stratagem.id === id);
+            };
+
             const getHashParams = () => {
                 const hash = window.location.hash.substr(1);
                 if (hash) {
@@ -39,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 players.forEach(player => {
                     const filteredStratagems = filterStratagemsByLevel(stratagems, player.level);
                     shuffleArray(filteredStratagems);
-                    player.stratagems = filteredStratagems.slice(0, 4);
+                    player.stratagems = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
 
                     const playerDiv = document.createElement("div");
                     playerDiv.className = "player-section";
@@ -51,7 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     const bingoGrid = document.createElement("div");
                     bingoGrid.className = "bingo-grid";
 
-                    player.stratagems.forEach(stratagem => {
+                    player.stratagems.forEach(id => {
+                        const stratagem = getStratagemById(id);
                         const cell = document.createElement("div");
                         cell.className = "bingo-cell";
                         const img = document.createElement("img");
@@ -69,10 +74,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             };
 
+            const copyToClipboard = (text) => {
+                const textarea = document.createElement("textarea");
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand("copy");
+                document.body.removeChild(textarea);
+            };
+
             const init = () => {
                 const players = getHashParams();
                 if (players) {
-                    console.log("Players from hash:", players);
                     document.getElementById("setup").style.display = "none";
                     document.getElementById("bingo-card").style.display = "block";
                     document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
@@ -91,6 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (players.length > 0) {
                             generateStratagemsForPlayers(players);
                             setHashParams(players);
+                            const generatedUrl = `${window.location.origin}${window.location.pathname}#${btoa(JSON.stringify(players))}`;
+                            document.getElementById("generated-link").value = generatedUrl;
                             console.log("Players set in hash:", players);
                         } else {
                             console.error("No valid players found");
@@ -102,6 +117,21 @@ document.addEventListener("DOMContentLoaded", () => {
             init();
         });
 });
+
+function copyGeneratedLink() {
+    const generatedLink = document.getElementById("generated-link").value;
+    if (generatedLink) {
+        const textarea = document.createElement("textarea");
+        textarea.value = generatedLink;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        alert("Link copied to clipboard!");
+    } else {
+        alert("No link generated yet.");
+    }
+}
 
 function printBingoCard() {
     const printWindow = window.open('', '', 'width=320,height=800');
