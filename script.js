@@ -18,7 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const getHashParams = () => {
                 const hash = window.location.hash.substr(1);
                 if (hash) {
-                    return JSON.parse(atob(hash));
+                    try {
+                        return JSON.parse(atob(hash));
+                    } catch (e) {
+                        console.error("Error parsing hash parameters", e);
+                        return null;
+                    }
                 }
                 return null;
             };
@@ -67,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const init = () => {
                 const players = getHashParams();
                 if (players) {
+                    console.log("Players from hash:", players);
                     document.getElementById("setup").style.display = "none";
                     document.getElementById("bingo-card").style.display = "block";
                     document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
@@ -85,6 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (players.length > 0) {
                             generateStratagemsForPlayers(players);
                             setHashParams(players);
+                            console.log("Players set in hash:", players);
+                        } else {
+                            console.error("No valid players found");
                         }
                     });
                 }
