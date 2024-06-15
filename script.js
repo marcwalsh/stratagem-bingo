@@ -138,8 +138,13 @@ function printBingoCard() {
                     margin-bottom: 5px;
                 }
                 .bingo-cell img {
-                    max-width: 100%;
+                    max-width: 50px;
                     height: auto;
+                    margin-right: 10px;
+                }
+                .bingo-cell span {
+                    display: inline-block;
+                    vertical-align: middle;
                 }
             </style>
         </head>
@@ -183,8 +188,13 @@ function printMiniBingoCard() {
                     margin-bottom: 5px;
                 }
                 .bingo-cell img {
-                    max-width: 100%;
+                    max-width: 50px;
                     height: auto;
+                    margin-right: 10px;
+                }
+                .bingo-cell span {
+                    display: inline-block;
+                    vertical-align: middle;
                 }
             </style>
         </head>
