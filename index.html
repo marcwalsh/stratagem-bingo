@@ -5,14 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stratagem Bingo - Helldivers 2</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <script src="js/utils.js" defer></script>
+    <script src="js/stratagems.js" defer></script>
+    <script src="js/players.js" defer></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/print.js" defer></script>
 </head>
 <body>
     <main>
         <section id="setup">
             <h3>Enter Player Details</h3>
             <div id="players">
-                <div class="player-input" id="player1-input">
+                <div class="player-input" id="player1-input" style="display: block; opacity: 1;">
                     <label for="player1-name">Player 1:</label>
                     <input type="text" id="player1-name" placeholder="Name">
                     <label for="player1-level">Level:</label>
