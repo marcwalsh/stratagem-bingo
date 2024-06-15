@@ -25,27 +25,27 @@ const addPlayerInput = () => {
     }
 };
 
-const collectPlayers = () => {
-    players.length = 0; // clear previous players
-    for (let i = 1; i <= currentPlayerIndex; i++) {
-        const name = document.getElementById(`player${i}-name`).value;
-        const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
-        if (name && level) {
-            const filteredStratagems = filterStratagemsByLevel(stratagems, level);
-            shuffleArray(filteredStratagems);
-            const stratagemsSelected = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
-            players.push({ name, level, stratagems: stratagemsSelected });
+const addPlayer = () => {
+    const name = document.getElementById(`player${currentPlayerIndex}-name`).value;
+    const level = parseInt(document.getElementById(`player${currentPlayerIndex}-level`).value, 10);
+    if (name && level) {
+        const filteredStratagems = filterStratagemsByLevel(stratagems, level);
+        shuffleArray(filteredStratagems);
+        const stratagemsSelected = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
+        players.push({ name, level, stratagems: stratagemsSelected });
+        if (currentPlayerIndex < 4) {
+            addPlayerInput();
         } else {
-            alert(`Please enter both name and level for Player ${i}.`);
-            return;
+            generateStratagemsForPlayers(players);
+            const encodedData = btoa(JSON.stringify(players));
+            const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
+            document.getElementById("generated-link").value = generatedUrl;
+            document.getElementById("share-link").style.display = "inline-block";
         }
+    } else {
+        alert("Please enter both name and level.");
     }
-    generateStratagemsForPlayers(players);
-    const encodedData = btoa(JSON.stringify(players));
-    const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
-    document.getElementById("generated-link").value = generatedUrl;
-    document.getElementById("share-link").style.display = "inline-block";
 };
 
 document.getElementById("add-player").addEventListener("click", addPlayerInput);
-document.getElementById("generate").addEventListener("click", collectPlayers);
+document.getElementById("generate").addEventListener("click", addPlayer);
