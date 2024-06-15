@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Link copied to clipboard!");
     };
 
-    document.getElementById("generate").addEventListener("click", () => {
+    const generateNewSet = () => {
         const players = [];
         for (let i = 1; i <= 4; i++) {
             const name = document.getElementById(`player${i}-name`).value;
@@ -88,7 +88,11 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             console.error("No valid players found");
         }
-    });
+    };
+
+    document.getElementById("generate").addEventListener("click", generateNewSet);
+
+    document.getElementById("generate-new").addEventListener("click", generateNewSet);
 
     document.getElementById("share-link").addEventListener("click", () => {
         const generatedUrl = document.getElementById("generated-link").value;
