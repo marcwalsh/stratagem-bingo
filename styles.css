@@ -1,64 +1,63 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Orbitron', sans-serif; /* Orbitron is a good font choice similar to Helldivers */
+    background-color: #1a1a1a;
+    color: #ffffff;
     margin: 0;
     padding: 0;
 }
 
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
+main {
+    padding: 20px;
     text-align: center;
 }
 
-h1, h2 {
-    margin: 0;
-}
-
-main {
-    padding: 20px;
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
 }
 
 .bingo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(1, 1fr);
     gap: 10px;
+    max-width: 300px;
+    margin: 0 auto;
 }
 
 .bingo-cell {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    padding: 20px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    border: 2px solid #555;
+    padding: 10px;
     border-radius: 5px;
 }
 
 .bingo-cell img {
-    max-width: 100%;
+    max-width: 50px;
     height: auto;
-}
-
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 10px 0;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    margin-right: 10px;
 }
 
 button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #555;
 }
 
 /* CSS for print layout */
 @media print {
     body {
         background-color: #fff;
+        color: #000;
     }
 
     .bingo-grid {
@@ -70,7 +69,7 @@ button {
         padding: 5px;
     }
 
-    header, footer, button {
+    button {
         display: none;
     }
 }
