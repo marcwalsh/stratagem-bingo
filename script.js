@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     let stratagems = [];
-    let currentPlayerIndex = 0;
+    let currentPlayerIndex = 1;
     const players = [];
 
     const shuffleArray = array => {
@@ -72,23 +72,34 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Link copied to clipboard!");
     };
 
-    const showNextPlayerInput = () => {
-        if (currentPlayerIndex < 4) {
-            document.getElementById(`player${currentPlayerIndex + 1}-input`).style.display = 'block';
-        }
+    const addPlayerInput = () => {
+        currentPlayerIndex++;
+        const playerInput = document.createElement('div');
+        playerInput.className = 'player-input';
+        playerInput.id = `player${currentPlayerIndex}-input`;
+        playerInput.innerHTML = `
+            <label for="player${currentPlayerIndex}-name">Player ${currentPlayerIndex}:</label>
+            <input type="text" id="player${currentPlayerIndex}-name" placeholder="Name">
+            <label for="player${currentPlayerIndex}-level">Level:</label>
+            <input type="number" id="player${currentPlayerIndex}-level" min="1" max="20">
+        `;
+        document.getElementById('players').appendChild(playerInput);
+        playerInput.style.opacity = 0;
+        setTimeout(() => {
+            playerInput.style.opacity = 1;
+        }, 100);
     };
 
     const addPlayer = () => {
-        const name = document.getElementById(`player${currentPlayerIndex + 1}-name`).value;
-        const level = parseInt(document.getElementById(`player${currentPlayerIndex + 1}-level`).value, 10);
+        const name = document.getElementById(`player${currentPlayerIndex}-name`).value;
+        const level = parseInt(document.getElementById(`player${currentPlayerIndex}-level`).value, 10);
         if (name && level) {
             const filteredStratagems = filterStratagemsByLevel(stratagems, level);
             shuffleArray(filteredStratagems);
             const stratagemsSelected = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
             players.push({ name, level, stratagems: stratagemsSelected });
-            currentPlayerIndex++;
             if (currentPlayerIndex < 4) {
-                showNextPlayerInput();
+                addPlayerInput();
             } else {
                 generateStratagemsForPlayers(players);
                 const encodedData = btoa(JSON.stringify(players));
@@ -101,18 +112,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    document.getElementById("next-player1").addEventListener("click", addPlayer);
-    document.getElementById("next-player2").addEventListener("click", addPlayer);
-    document.getElementById("next-player3").addEventListener("click", addPlayer);
+    document.getElementById("add-player").addEventListener("click", addPlayerInput);
     document.getElementById("generate").addEventListener("click", addPlayer);
 
     document.getElementById("generate-new").addEventListener("click", () => {
-        currentPlayerIndex = 0;
+        currentPlayerIndex = 1;
         players.length = 0;
+        document.getElementById("players").innerHTML = `
+            <div class="player-input" id="player1-input" style="display: block;">
+                <label for="player1-name">Player 1:</label>
+                <input type="text" id="player1-name" placeholder="Name">
+                <label for="player1-level">Level:</label>
+                <input type="number" id="player1-level" min="1" max="20">
+            </div>
+        `;
         document.getElementById("setup").style.display = "block";
         document.getElementById("bingo-card").style.display = "none";
-        document.querySelectorAll('.player-input').forEach(input => input.style.display = 'none');
-        document.getElementById("player1-input").style.display = 'block';
     });
 
     document.getElementById("share-link").addEventListener("click", () => {
@@ -236,11 +251,51 @@ function printMiniBingoCard() {
         printWindow.document.write(section.innerHTML);
     });
 
-    printWindow.document.write(`
-        </body>
-        </html>
-    `);
-
-    printWindow.document.close();
-    printWindow.print();
-}
+    function printMiniBingoCard() {
+        const printWindow = window.open('', '', 'width=320,height=400');
+        printWindow.document.write(`
+            <html>
+            <head>
+                <title>Print Mini Bingo Card</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        background-color: #fff;
+                        margin: 0;
+                        padding: 10px;
+                        width: 80mm;
+                    }
+                    .bingo-cell {
+                        border: 1px solid #000;
+                        padding: 5px;
+                        text-align: center;
+                        margin-bottom: 5px;
+                    }
+                    .bingo-cell img {
+                        max-width: 50px;
+                        height: auto;
+                        margin-right: 10px;
+                    }
+                    .bingo-cell span {
+                        display: inline-block;
+                        vertical-align: middle;
+                    }
+                </style>
+            </head>
+            <body>
+        `);
+    
+        const playerSections = Array.from(document.querySelectorAll('.player-section'));
+        playerSections.forEach(section => {
+            printWindow.document.write(section.innerHTML);
+        });
+    
+        printWindow.document.write(`
+            </body>
+            </html>
+        `);
+    
+        printWindow.document.close();
+        printWindow.print();
+    }
+    
