@@ -15,28 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 return stratagems.filter(stratagem => stratagem.level <= level);
             };
 
-            const getStratagemById = (id) => {
+            const getStratagemById = id => {
                 return stratagems.find(stratagem => stratagem.id === id);
             };
 
-            const getHashParams = () => {
-                const hash = window.location.hash.substr(1);
-                if (hash) {
-                    try {
-                        return JSON.parse(atob(hash));
-                    } catch (e) {
-                        console.error("Error parsing hash parameters", e);
-                        return null;
-                    }
-                }
-                return null;
-            };
-
-            const setHashParams = (params) => {
-                window.location.hash = btoa(JSON.stringify(params));
-            };
-
-            const generateStratagemsForPlayers = (players) => {
+            const generateStratagemsForPlayers = players => {
                 const bingoGrids = document.getElementById("bingo-grids");
                 bingoGrids.innerHTML = "";
 
@@ -72,66 +55,72 @@ document.addEventListener("DOMContentLoaded", () => {
                     playerDiv.appendChild(bingoGrid);
                     bingoGrids.appendChild(playerDiv);
                 });
+
+                document.getElementById("share-link").style.display = "block";
             };
 
-            const copyToClipboard = (text) => {
+            const copyToClipboard = text => {
                 const textarea = document.createElement("textarea");
                 textarea.value = text;
                 document.body.appendChild(textarea);
                 textarea.select();
                 document.execCommand("copy");
                 document.body.removeChild(textarea);
+                alert("Link copied to clipboard!");
             };
 
-            const init = () => {
-                const players = getHashParams();
-                if (players) {
-                    document.getElementById("setup").style.display = "none";
-                    document.getElementById("bingo-card").style.display = "block";
-                    document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
+            document.getElementById("generate").addEventListener("click", () => {
+                const players = [];
+                for (let i = 1; i <= 4; i++) {
+                    const name = document.getElementById(`player${i}-name`).value;
+                    const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
+                    if (name && level) {
+                        players.push({ name, level });
+                    }
+                }
+
+                if (players.length > 0) {
                     generateStratagemsForPlayers(players);
                 } else {
-                    document.getElementById("generate").addEventListener("click", () => {
-                        const players = [];
-                        for (let i = 1; i <= 4; i++) {
-                            const name = document.getElementById(`player${i}-name`).value;
-                            const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
-                            if (name && level) {
-                                players.push({ name, level });
-                            }
-                        }
+                    console.error("No valid players found");
+                }
+            });
 
-                        if (players.length > 0) {
-                            generateStratagemsForPlayers(players);
-                            setHashParams(players);
-                            const generatedUrl = `${window.location.origin}${window.location.pathname}#${btoa(JSON.stringify(players))}`;
-                            document.getElementById("generated-link").value = generatedUrl;
-                            console.log("Players set in hash:", players);
-                        } else {
-                            console.error("No valid players found");
-                        }
+            document.getElementById("share-link").addEventListener("click", () => {
+                const players = [];
+                document.querySelectorAll('.player-section').forEach(section => {
+                    const name = section.querySelector('h4').textContent.split("'s")[0];
+                    const stratagems = Array.from(section.querySelectorAll('.bingo-cell img')).map(img => {
+                        return stratagems.find(s => s.name === img.alt).id;
                     });
+                    const level = parseInt(section.querySelector('h4').dataset.level, 10);
+                    players.push({ name, level, stratagems });
+                });
+
+                const encodedData = btoa(JSON.stringify(players));
+                const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
+                document.getElementById("generated-link").value = generatedUrl;
+                copyToClipboard(generatedUrl);
+            });
+
+            const init = () => {
+                const hash = window.location.hash.substr(1);
+                if (hash) {
+                    try {
+                        const players = JSON.parse(atob(hash));
+                        generateStratagemsForPlayers(players);
+                        document.getElementById("setup").style.display = "none";
+                        document.getElementById("bingo-card").style.display = "block";
+                        document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
+                    } catch (e) {
+                        console.error("Error parsing hash parameters", e);
+                    }
                 }
             };
 
             init();
         });
 });
-
-function copyGeneratedLink() {
-    const generatedLink = document.getElementById("generated-link").value;
-    if (generatedLink) {
-        const textarea = document.createElement("textarea");
-        textarea.value = generatedLink;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand("copy");
-        document.body.removeChild(textarea);
-        alert("Link copied to clipboard!");
-    } else {
-        alert("No link generated yet.");
-    }
-}
 
 function printBingoCard() {
     const printWindow = window.open('', '', 'width=320,height=800');
