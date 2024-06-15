@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 return stratagems.find(stratagem => stratagem.id === id);
             };
 
-            const generateStratagemsForPlayers = players => {
+            const generateStratagemsForPlayers = (players, stratagems) => {
                 const bingoGrids = document.getElementById("bingo-grids");
                 bingoGrids.innerHTML = "";
 
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
                 if (players.length > 0) {
-                    generateStratagemsForPlayers(players);
+                    generateStratagemsForPlayers(players, stratagems);
                 } else {
                     console.error("No valid players found");
                 }
@@ -95,10 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelectorAll('.player-section').forEach(section => {
                     const name = section.querySelector('h4').textContent.split("'s")[0];
                     const level = parseInt(section.querySelector('h4').dataset.level, 10);
-                    const stratagems = Array.from(section.querySelectorAll('.bingo-cell img')).map(img => {
-                        return stratagems.find(s => s.name === img.alt).id;
-                    });
-                    players.push({ name, level, stratagems });
+                    const stratagemsArray = Array.from(section.querySelectorAll('.bingo-cell img')).map(img => {
+                        const stratagem = stratagems.find(s => s.name === img.alt);
+                        return stratagem ? stratagem.id : null;
+                    }).filter(id => id !== null);
+                    players.push({ name, level, stratagems: stratagemsArray });
                 });
 
                 const encodedData = btoa(JSON.stringify(players));
@@ -112,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (hash) {
                     try {
                         const players = JSON.parse(atob(hash));
-                        generateStratagemsForPlayers(players);
+                        generateStratagemsForPlayers(players, stratagems);
                         document.getElementById("setup").style.display = "none";
                         document.getElementById("bingo-card").style.display = "block";
                         document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
