@@ -39,14 +39,13 @@
             </div>
             <button id="generate">Generate Stratagems</button>
         </section>
-        <section id="bingo-card" style="display: none;">
-            <h3 id="title">Helldiver, these are your assigned stratagems.</h3>
-            <div id="bingo-grids">
-                <!-- The stratagems will be inserted here by JavaScript -->
-            </div>
+
+        <section id="bingo-card" style="display:none;">
+            <h3 id="title">Helldivers, these are your assigned stratagems.</h3>
+            <div id="bingo-grids"></div>
+            <button id="share-link" style="display:none;">Copy Generated Link</button>
             <input type="text" id="generated-link" readonly>
-            <button id="share-link">Copy Generated Link</button>
-            <button onclick="printBingoCard()">Print Bingo Card</button>
+            <button onclick="printBingoCard()">Print Full Bingo Card</button>
             <button onclick="printMiniBingoCard()">Print Mini Bingo Card</button>
         </section>
     </main>
