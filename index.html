@@ -9,14 +9,39 @@
 </head>
 <body>
     <main>
-        <section id="bingo-card">
-            <h3>Helldiver, these are your assigned stratagems.</h3>
-            <div>
-                <label for="level-input">Enter Level:</label>
-                <input type="number" id="level-input" min="1" max="20">
-                <button id="level-submit">Submit</button>
+        <section id="setup">
+            <h3>Enter Players and Levels</h3>
+            <div id="players">
+                <div>
+                    <label for="player1-name">Player 1:</label>
+                    <input type="text" id="player1-name" placeholder="Name">
+                    <label for="player1-level">Level:</label>
+                    <input type="number" id="player1-level" min="1" max="20">
+                </div>
+                <div>
+                    <label for="player2-name">Player 2:</label>
+                    <input type="text" id="player2-name" placeholder="Name">
+                    <label for="player2-level">Level:</label>
+                    <input type="number" id="player2-level" min="1" max="20">
+                </div>
+                <div>
+                    <label for="player3-name">Player 3:</label>
+                    <input type="text" id="player3-name" placeholder="Name">
+                    <label for="player3-level">Level:</label>
+                    <input type="number" id="player3-level" min="1" max="20">
+                </div>
+                <div>
+                    <label for="player4-name">Player 4:</label>
+                    <input type="text" id="player4-name" placeholder="Name">
+                    <label for="player4-level">Level:</label>
+                    <input type="number" id="player4-level" min="1" max="20">
+                </div>
             </div>
-            <div class="bingo-grid" id="bingo-grid">
+            <button id="generate">Generate Stratagems</button>
+        </section>
+        <section id="bingo-card" style="display: none;">
+            <h3 id="title">Helldiver, these are your assigned stratagems.</h3>
+            <div id="bingo-grids">
                 <!-- The stratagems will be inserted here by JavaScript -->
             </div>
             <button onclick="printBingoCard()">Print Bingo Card</button>
