@@ -1,0 +1,75 @@
+.
+./General Stratagems
+./General Stratagems/Orbital Illumination Flare.svg
+./General Stratagems/Hellbomb.svg
+./General Stratagems/Tectonic Drill.svg
+./General Stratagems/Seismic Probe.svg
+./General Stratagems/SEAF Artillery.svg
+./General Stratagems/Reinforce.svg
+./General Stratagems/Prospecting Drill.svg
+./General Stratagems/Super Earth Flag.svg
+./General Stratagems/Upload Data.svg
+./General Stratagems/Dark Fluid Vessel.svg
+./General Stratagems/Resupply.svg
+./General Stratagems/SOS Beacon.svg
+./file_list.txt
+./Bridge
+./Bridge/Orbital EMS Strike.svg
+./Bridge/Tesla Tower.svg
+./Bridge/HMG Emplacement.svg
+./Bridge/Orbital Smoke Strike.svg
+./Bridge/Orbital Gas Strike.svg
+./Bridge/Shield Generator Relay.svg
+./Bridge/Orbital Precision Strike.svg
+./Hangar
+./Hangar/Eagle 500KG Bomb.svg
+./Hangar/Eagle Cluster Bomb.svg
+./Hangar/Jump Pack.svg
+./Hangar/Eagle Strafing Run.svg
+./Hangar/Eagle 110MM Rocket Pods.svg
+./Hangar/Eagle Rearm.svg
+./Hangar/Eagle Airstrike.svg
+./Hangar/Eagle Smoke Strike.svg
+./Hangar/Eagle Napalm Airstrike.svg
+./Engineering Bay
+./Engineering Bay/Arc Thrower.svg
+./Engineering Bay/Anti-Tank Mines.svg
+./Engineering Bay/Grenade Launcher.svg
+./Engineering Bay/Incendiary Mines.svg
+./Engineering Bay/Ballistic Shield Backpack.svg
+./Engineering Bay/Quasar Cannon.svg
+./Engineering Bay/Guard Dog Rover.svg
+./Engineering Bay/Laser Cannon.svg
+./Engineering Bay/Shield Generator Pack.svg
+./Engineering Bay/Anti-Personnel Minefield.svg
+./Engineering Bay/Supply Pack.svg
+./Patriotic Administration Center
+./Patriotic Administration Center/Expendable Anti-Tank.svg
+./Patriotic Administration Center/Airburst Rocket Launcher.svg
+./Patriotic Administration Center/Machine Gun.svg
+./Patriotic Administration Center/Autocannon.svg
+./Patriotic Administration Center/Heavy Machine Gun.svg
+./Patriotic Administration Center/Anti-Materiel Rifle.svg
+./Patriotic Administration Center/Spear.svg
+./Patriotic Administration Center/Flamethrower.svg
+./Patriotic Administration Center/Stalwart.svg
+./Patriotic Administration Center/Recoilless Rifle.svg
+./Patriotic Administration Center/Railgun.svg
+./Orbital Cannons
+./Orbital Cannons/Orbital Airburst Strike.svg
+./Orbital Cannons/Orbital Railcannon Strike.svg
+./Orbital Cannons/Orbital 120MM HE Barrage.svg
+./Orbital Cannons/Orbital Walking Barrage.svg
+./Orbital Cannons/Orbital Gatling Barrage.svg
+./Orbital Cannons/Orbital 380MM HE Barrage.svg
+./Orbital Cannons/Orbital Laser.svg
+./Robotics Workshop
+./Robotics Workshop/Emancipator Exosuit.svg
+./Robotics Workshop/Machine Gun Sentry.svg
+./Robotics Workshop/Guard Dog.svg
+./Robotics Workshop/Gatling Sentry.svg
+./Robotics Workshop/Rocket Sentry.svg
+./Robotics Workshop/Patriot Exosuit.svg
+./Robotics Workshop/Autocannon Sentry.svg
+./Robotics Workshop/Mortar Sentry.svg
+./Robotics Workshop/EMS Mortar Sentry.svg
