@@ -1,5 +1,7 @@
 // main.js
 
+// main.js
+
 const init = () => {
     fetch('stratagems.json')
         .then(response => response.json())

@@ -25,6 +25,8 @@ const addPlayerInput = () => {
     }
 };
 
+// players.js
+
 const addPlayer = () => {
     const name = document.getElementById(`player${currentPlayerIndex}-name`).value;
     const level = parseInt(document.getElementById(`player${currentPlayerIndex}-level`).value, 10);
@@ -48,4 +50,10 @@ const addPlayer = () => {
 };
 
 document.getElementById("add-player").addEventListener("click", addPlayerInput);
-document.getElementById("generate").addEventListener("click", addPlayer);
+document.getElementById("generate").addEventListener("click", () => {
+    if (currentPlayerIndex <= 4) {
+        addPlayer();
+    } else {
+        alert("Maximum of 4 players reached.");
+    }
+});

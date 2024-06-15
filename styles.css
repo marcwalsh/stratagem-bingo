@@ -5,7 +5,6 @@ body {
     background: #1c1c1e;
     color: #fff;
     margin: 0;
-    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,18 +14,22 @@ body {
 
 main {
     width: 100%;
-    max-width: 800px;
-    padding: 30px;
+    max-width: 600px;
     background: rgba(30, 30, 30, 0.9);
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    box-sizing: border-box;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(10px);
     border: 2px solid #ff7f50;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-h3, h4 {
+h3 {
     color: #ff7f50;
     margin-top: 0;
     text-align: center;
@@ -35,24 +38,21 @@ h3, h4 {
 }
 
 #setup, #bingo-card {
-    margin-bottom: 20px;
-    background: rgba(255, 127, 80, 0.1);
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    box-shadow: 0 0 10px rgba(255, 127, 80, 0.5);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
 }
 
 #players {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    width: 100%;
 }
 
 .player-input {
     margin-bottom: 20px;
-    width: 100%;
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,15 +67,15 @@ label {
 }
 
 input[type="text"], input[type="number"] {
-    padding: 15px;
-    margin: 10px 0;
+    padding: 10px;
+    margin: 5px 0;
     border: 2px solid #ff7f50;
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: #2c2c2e;
     color: #fff;
-    width: 80%;
+    width: 100%;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     transition: all 0.3s ease;
 }
 
@@ -88,20 +88,21 @@ input[type="text"]:focus, input[type="number"]:focus {
 input[readonly] {
     background-color: #333;
     border: 2px solid #555;
+    margin-top: 10px;
 }
 
 button {
-    padding: 15px 30px;
-    margin: 20px 0;
+    padding: 10px 20px;
+    margin: 10px 0;
     background: linear-gradient(145deg, #ff7f50, #ff6347);
     color: #000;
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -112,14 +113,14 @@ button:hover {
 .bingo-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 10px;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .bingo-cell {
-    width: 120px;
-    height: 140px;
+    width: 100px;
+    height: 120px;
     border: 2px solid #444;
     background: rgba(255, 255, 255, 0.1);
     display: flex;
@@ -132,18 +133,18 @@ button:hover {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease, background-color 0.2s ease;
     animation: rollIn 1s ease-in-out;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .bingo-cell:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
     background-color: rgba(255, 255, 255, 0.2);
 }
 
 .bingo-cell img {
-    max-width: 80px;
-    max-height: 80px;
-    margin-bottom: 10px;
+    max-width: 60px;
+    max-height: 60px;
+    margin-bottom: 5px;
 }
 
 @keyframes rollIn {
@@ -164,4 +165,9 @@ button:hover {
     to {
         opacity: 1;
     }
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
 }

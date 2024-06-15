@@ -23,18 +23,22 @@
                     <input type="number" id="player1-level" min="1" max="20">
                 </div>
             </div>
-            <button id="add-player">Add Another Player</button>
-            <button id="generate">Generate Stratagems</button>
+            <div class="button-group">
+                <button id="add-player">Add Another Player</button>
+                <button id="generate">Generate Stratagems</button>
+            </div>
         </section>
 
         <section id="bingo-card" style="display:none;">
             <h3 id="title">Helldivers, these are your assigned stratagems.</h3>
             <div id="bingo-grids"></div>
-            <button id="share-link" style="display:none;">Copy Generated Link</button>
-            <input type="text" id="generated-link" readonly>
-            <button onclick="printBingoCard()">Print Full Bingo Card</button>
-            <button onclick="printMiniBingoCard()">Print Mini Bingo Card</button>
-            <button id="generate-new">Generate New Set</button>
+            <div class="button-group">
+                <button id="share-link" style="display:none;">Copy Generated Link</button>
+                <input type="text" id="generated-link" readonly>
+                <button onclick="printBingoCard()">Print Full Bingo Card</button>
+                <button onclick="printMiniBingoCard()">Print Mini Bingo Card</button>
+                <button id="generate-new">Generate New Set</button>
+            </div>
         </section>
     </main>
 </body>
