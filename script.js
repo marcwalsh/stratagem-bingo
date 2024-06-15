@@ -1,108 +1,110 @@
 document.addEventListener("DOMContentLoaded", () => {
-    fetch('stratagems.json')
-        .then(response => response.json())
-        .then(data => {
-            const stratagems = data.stratagems;
+    let stratagems = [];
 
-            const shuffleArray = array => {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
-                }
-            };
+    const shuffleArray = array => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    };
 
-            const filterStratagemsByLevel = (stratagems, level) => {
-                return stratagems.filter(stratagem => stratagem.level <= level);
-            };
+    const filterStratagemsByLevel = (stratagems, level) => {
+        return stratagems.filter(stratagem => stratagem.level <= level);
+    };
 
-            const getStratagemById = id => {
-                return stratagems.find(stratagem => stratagem.id === id);
-            };
+    const getStratagemById = id => {
+        return stratagems.find(stratagem => stratagem.id === id);
+    };
 
-            const generateStratagemsForPlayers = (players) => {
-                const bingoGrids = document.getElementById("bingo-grids");
-                bingoGrids.innerHTML = "";
+    const generateStratagemsForPlayers = players => {
+        const bingoGrids = document.getElementById("bingo-grids");
+        bingoGrids.innerHTML = "";
 
-                players.forEach(player => {
-                    const playerDiv = document.createElement("div");
-                    playerDiv.className = "player-section";
+        players.forEach(player => {
+            const playerDiv = document.createElement("div");
+            playerDiv.className = "player-section";
 
-                    const playerTitle = document.createElement("h4");
-                    playerTitle.textContent = `${player.name}'s Stratagems:`;
-                    playerTitle.dataset.level = player.level;
-                    playerDiv.appendChild(playerTitle);
+            const playerTitle = document.createElement("h4");
+            playerTitle.textContent = `${player.name}'s Stratagems:`;
+            playerTitle.dataset.level = player.level;
+            playerDiv.appendChild(playerTitle);
 
-                    const bingoGrid = document.createElement("div");
-                    bingoGrid.className = "bingo-grid";
+            const bingoGrid = document.createElement("div");
+            bingoGrid.className = "bingo-grid";
 
-                    player.stratagems.forEach(id => {
-                        const stratagem = getStratagemById(id);
-                        const cell = document.createElement("div");
-                        cell.className = "bingo-cell";
-                        const img = document.createElement("img");
-                        img.src = stratagem.image;
-                        img.alt = stratagem.name;
-                        const text = document.createElement("span");
-                        text.textContent = stratagem.name.replace(/_/g, ' ');
-                        cell.appendChild(img);
-                        cell.appendChild(text);
-                        bingoGrid.appendChild(cell);
-                    });
-
-                    playerDiv.appendChild(bingoGrid);
-                    bingoGrids.appendChild(playerDiv);
-                });
-
-                document.getElementById("bingo-card").style.display = "block";
-                document.getElementById("setup").style.display = "none";
-                document.getElementById("share-link").style.display = "inline-block";
-                console.log("Stratagems generated and displayed.");
-            };
-
-            const copyToClipboard = text => {
-                const textarea = document.createElement("textarea");
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand("copy");
-                document.body.removeChild(textarea);
-                alert("Link copied to clipboard!");
-            };
-
-            document.getElementById("generate").addEventListener("click", () => {
-                const players = [];
-                for (let i = 1; i <= 4; i++) {
-                    const name = document.getElementById(`player${i}-name`).value;
-                    const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
-                    if (name && level) {
-                        const filteredStratagems = filterStratagemsByLevel(stratagems, level);
-                        shuffleArray(filteredStratagems);
-                        const stratagemsSelected = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
-                        players.push({ name, level, stratagems: stratagemsSelected });
-                    }
-                }
-
-                if (players.length > 0) {
-                    generateStratagemsForPlayers(players);
-                    const encodedData = btoa(JSON.stringify(players));
-                    const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
-                    document.getElementById("generated-link").value = generatedUrl;
-                    document.getElementById("share-link").style.display = "inline-block";
-                } else {
-                    console.error("No valid players found");
-                }
+            player.stratagems.forEach(id => {
+                const stratagem = getStratagemById(id);
+                const cell = document.createElement("div");
+                cell.className = "bingo-cell";
+                const img = document.createElement("img");
+                img.src = stratagem.image;
+                img.alt = stratagem.name;
+                const text = document.createElement("span");
+                text.textContent = stratagem.name.replace(/_/g, ' ');
+                cell.appendChild(img);
+                cell.appendChild(text);
+                bingoGrid.appendChild(cell);
             });
 
-            document.getElementById("share-link").addEventListener("click", () => {
-                const generatedUrl = document.getElementById("generated-link").value;
-                if (generatedUrl) {
-                    copyToClipboard(generatedUrl);
-                } else {
-                    alert("No URL generated yet.");
-                }
-            });
+            playerDiv.appendChild(bingoGrid);
+            bingoGrids.appendChild(playerDiv);
+        });
 
-            const init = () => {
+        document.getElementById("bingo-card").style.display = "block";
+        document.getElementById("setup").style.display = "none";
+        document.getElementById("share-link").style.display = "inline-block";
+        console.log("Stratagems generated and displayed.");
+    };
+
+    const copyToClipboard = text => {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        alert("Link copied to clipboard!");
+    };
+
+    document.getElementById("generate").addEventListener("click", () => {
+        const players = [];
+        for (let i = 1; i <= 4; i++) {
+            const name = document.getElementById(`player${i}-name`).value;
+            const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
+            if (name && level) {
+                const filteredStratagems = filterStratagemsByLevel(stratagems, level);
+                shuffleArray(filteredStratagems);
+                const stratagemsSelected = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
+                players.push({ name, level, stratagems: stratagemsSelected });
+            }
+        }
+
+        if (players.length > 0) {
+            generateStratagemsForPlayers(players);
+            const encodedData = btoa(JSON.stringify(players));
+            const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
+            document.getElementById("generated-link").value = generatedUrl;
+            document.getElementById("share-link").style.display = "inline-block";
+        } else {
+            console.error("No valid players found");
+        }
+    });
+
+    document.getElementById("share-link").addEventListener("click", () => {
+        const generatedUrl = document.getElementById("generated-link").value;
+        if (generatedUrl) {
+            copyToClipboard(generatedUrl);
+        } else {
+            alert("No URL generated yet.");
+        }
+    });
+
+    const init = () => {
+        fetch('stratagems.json')
+            .then(response => response.json())
+            .then(data => {
+                stratagems = data.stratagems;
+
                 const hash = window.location.hash.substr(1);
                 if (hash) {
                     try {
@@ -116,10 +118,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         console.error("Error parsing hash parameters", e);
                     }
                 }
-            };
+            });
+    };
 
-            init();
-        });
+    init();
 });
 
 function printBingoCard() {
