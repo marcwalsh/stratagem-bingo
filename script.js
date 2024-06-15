@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 players.forEach(player => {
                     const filteredStratagems = filterStratagemsByLevel(stratagems, player.level);
                     shuffleArray(filteredStratagems);
+                    player.stratagems = filteredStratagems.slice(0, 4);
 
                     const playerDiv = document.createElement("div");
                     playerDiv.className = "player-section";
@@ -45,18 +46,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     const bingoGrid = document.createElement("div");
                     bingoGrid.className = "bingo-grid";
 
-                    for (let i = 0; i < 4; i++) {
+                    player.stratagems.forEach(stratagem => {
                         const cell = document.createElement("div");
                         cell.className = "bingo-cell";
                         const img = document.createElement("img");
-                        img.src = filteredStratagems[i].image;
-                        img.alt = filteredStratagems[i].name;
+                        img.src = stratagem.image;
+                        img.alt = stratagem.name;
                         const text = document.createElement("span");
-                        text.textContent = filteredStratagems[i].name.replace(/_/g, ' ');
+                        text.textContent = stratagem.name.replace(/_/g, ' ');
                         cell.appendChild(img);
                         cell.appendChild(text);
                         bingoGrid.appendChild(cell);
-                    }
+                    });
 
                     playerDiv.appendChild(bingoGrid);
                     bingoGrids.appendChild(playerDiv);
@@ -82,8 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         }
 
                         if (players.length > 0) {
+                            generateStratagemsForPlayers(players);
                             setHashParams(players);
-                            window.location.reload();
                         }
                     });
                 }
