@@ -2,7 +2,7 @@
 
 body {
     font-family: 'Chakra Petch', sans-serif;
-    background-color: #000;
+    background: linear-gradient(135deg, #000428, #004e92);
     color: #fff;
     margin: 0;
     padding: 20px;
@@ -15,115 +15,129 @@ body {
 
 main {
     width: 100%;
-    max-width: 900px;
-    padding: 20px;
-    background: linear-gradient(145deg, #2c2f33, #23272a);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    border: 2px solid #f0ad4e;
+    max-width: 600px;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    border: 2px solid #00d4ff;
+    position: relative;
+    overflow: hidden;
 }
 
 h3, h4 {
-    color: #f0ad4e;
+    color: #00d4ff;
     margin-top: 0;
     text-align: center;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 #setup, #bingo-card {
     margin-bottom: 20px;
-    background-color: #1a1a1a;
+    background: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 8px;
     border: 1px solid #444;
 }
 
-#players div {
-    margin-bottom: 10px;
+#players {
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.player-input {
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+    display: none;
 }
 
 label {
-    color: #f0ad4e;
+    color: #00d4ff;
     margin-bottom: 5px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 input[type="text"], input[type="number"] {
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #f0ad4e;
-    border-radius: 4px;
-    background-color: #333;
+    padding: 15px;
+    margin: 10px 0;
+    border: 2px solid #00d4ff;
+    border-radius: 20px;
+    background-color: #222;
     color: #fff;
-    width: calc(100% - 22px);
+    width: 80%;
+    text-align: center;
+    font-size: 1.2rem;
     transition: all 0.3s ease;
 }
 
 input[type="text"]:focus, input[type="number"]:focus {
-    border-color: #f0ad4e;
-    box-shadow: 0 0 5px #f0ad4e;
+    border-color: #00ffcc;
+    box-shadow: 0 0 10px #00ffcc;
     outline: none;
 }
 
 input[readonly] {
-    background-color: #444;
-    border: 1px solid #555;
+    background-color: #333;
+    border: 2px solid #555;
 }
 
 button {
-    padding: 10px 20px;
-    margin: 10px 0;
-    background: linear-gradient(145deg, #f0ad4e, #ec971f);
-    color: #1a1a1a;
+    padding: 15px 30px;
+    margin: 20px 0;
+    background: linear-gradient(145deg, #00d4ff, #00ffcc);
+    color: #000;
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-size: 1.2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 button:hover {
-    background: linear-gradient(145deg, #ec971f, #f0ad4e);
+    background: linear-gradient(145deg, #00ffcc, #00d4ff);
 }
 
 .bingo-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 20px;
     justify-content: center;
     margin-top: 20px;
 }
 
 .bingo-cell {
-    width: 100px;
-    height: 120px;
-    border: 1px solid #444;
-    background-color: #222;
+    width: 120px;
+    height: 140px;
+    border: 2px solid #444;
+    background: rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: 10px;
     padding: 10px;
     text-align: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s ease, background-color 0.2s ease;
     animation: rollIn 1s ease-in-out;
 }
 
 .bingo-cell:hover {
-    transform: translateY(-5px);
-    background-color: #333;
+    transform: translateY(-10px);
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .bingo-cell img {
     max-width: 80px;
     max-height: 80px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 @keyframes rollIn {

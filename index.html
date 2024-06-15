@@ -12,32 +12,35 @@
         <section id="setup">
             <h3>Enter Players and Levels</h3>
             <div id="players">
-                <div>
+                <div class="player-input" id="player1-input">
                     <label for="player1-name">Player 1:</label>
                     <input type="text" id="player1-name" placeholder="Name">
                     <label for="player1-level">Level:</label>
                     <input type="number" id="player1-level" min="1" max="20">
+                    <button id="next-player1">Next</button>
                 </div>
-                <div>
+                <div class="player-input" id="player2-input">
                     <label for="player2-name">Player 2:</label>
                     <input type="text" id="player2-name" placeholder="Name">
                     <label for="player2-level">Level:</label>
                     <input type="number" id="player2-level" min="1" max="20">
+                    <button id="next-player2">Next</button>
                 </div>
-                <div>
+                <div class="player-input" id="player3-input">
                     <label for="player3-name">Player 3:</label>
                     <input type="text" id="player3-name" placeholder="Name">
                     <label for="player3-level">Level:</label>
                     <input type="number" id="player3-level" min="1" max="20">
+                    <button id="next-player3">Next</button>
                 </div>
-                <div>
+                <div class="player-input" id="player4-input">
                     <label for="player4-name">Player 4:</label>
                     <input type="text" id="player4-name" placeholder="Name">
                     <label for="player4-level">Level:</label>
                     <input type="number" id="player4-level" min="1" max="20">
+                    <button id="generate">Generate Stratagems</button>
                 </div>
             </div>
-            <button id="generate">Generate Stratagems</button>
         </section>
 
         <section id="bingo-card" style="display:none;">

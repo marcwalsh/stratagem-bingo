@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     let stratagems = [];
+    let currentPlayerIndex = 0;
+    const players = [];
 
     const shuffleArray = array => {
         for (let i = array.length - 1; i > 0; i--) {
@@ -70,33 +72,48 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Link copied to clipboard!");
     };
 
-    const generateNewSet = () => {
-        const players = [];
-        for (let i = 1; i <= 4; i++) {
-            const name = document.getElementById(`player${i}-name`).value;
-            const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
-            if (name && level) {
-                const filteredStratagems = filterStratagemsByLevel(stratagems, level);
-                shuffleArray(filteredStratagems);
-                const stratagemsSelected = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
-                players.push({ name, level, stratagems: stratagemsSelected });
-            }
-        }
-
-        if (players.length > 0) {
-            generateStratagemsForPlayers(players);
-            const encodedData = btoa(JSON.stringify(players));
-            const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
-            document.getElementById("generated-link").value = generatedUrl;
-            document.getElementById("share-link").style.display = "inline-block";
-        } else {
-            console.error("No valid players found");
+    const showNextPlayerInput = () => {
+        if (currentPlayerIndex < 4) {
+            document.getElementById(`player${currentPlayerIndex + 1}-input`).style.display = 'block';
         }
     };
 
-    document.getElementById("generate").addEventListener("click", generateNewSet);
+    const addPlayer = () => {
+        const name = document.getElementById(`player${currentPlayerIndex + 1}-name`).value;
+        const level = parseInt(document.getElementById(`player${currentPlayerIndex + 1}-level`).value, 10);
+        if (name && level) {
+            const filteredStratagems = filterStratagemsByLevel(stratagems, level);
+            shuffleArray(filteredStratagems);
+            const stratagemsSelected = filteredStratagems.slice(0, 4).map(stratagem => stratagem.id);
+            players.push({ name, level, stratagems: stratagemsSelected });
+            currentPlayerIndex++;
+            if (currentPlayerIndex < 4) {
+                showNextPlayerInput();
+            } else {
+                generateStratagemsForPlayers(players);
+                const encodedData = btoa(JSON.stringify(players));
+                const generatedUrl = `${window.location.origin}${window.location.pathname}#${encodedData}`;
+                document.getElementById("generated-link").value = generatedUrl;
+                document.getElementById("share-link").style.display = "inline-block";
+            }
+        } else {
+            alert("Please enter both name and level.");
+        }
+    };
 
-    document.getElementById("generate-new").addEventListener("click", generateNewSet);
+    document.getElementById("next-player1").addEventListener("click", addPlayer);
+    document.getElementById("next-player2").addEventListener("click", addPlayer);
+    document.getElementById("next-player3").addEventListener("click", addPlayer);
+    document.getElementById("generate").addEventListener("click", addPlayer);
+
+    document.getElementById("generate-new").addEventListener("click", () => {
+        currentPlayerIndex = 0;
+        players.length = 0;
+        document.getElementById("setup").style.display = "block";
+        document.getElementById("bingo-card").style.display = "none";
+        document.querySelectorAll('.player-input').forEach(input => input.style.display = 'none');
+        document.getElementById("player1-input").style.display = 'block';
+    });
 
     document.getElementById("share-link").addEventListener("click", () => {
         const generatedUrl = document.getElementById("generated-link").value;
