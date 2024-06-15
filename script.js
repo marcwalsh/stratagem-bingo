@@ -14,34 +14,60 @@ document.addEventListener("DOMContentLoaded", () => {
                 return stratagems.filter(stratagem => stratagem.level <= level);
             };
 
-            document.getElementById("level-submit").addEventListener("click", () => {
-                const level = parseInt(document.getElementById("level-input").value, 10);
-                const filteredStratagems = filterStratagemsByLevel(stratagems, level);
-                shuffleArray(filteredStratagems);
+            document.getElementById("generate").addEventListener("click", () => {
+                const players = [];
+                for (let i = 1; i <= 4; i++) {
+                    const name = document.getElementById(`player${i}-name`).value;
+                    const level = parseInt(document.getElementById(`player${i}-level`).value, 10);
+                    if (name && level) {
+                        players.push({ name, level });
+                    }
+                }
 
-                const bingoGrid = document.getElementById("bingo-grid");
-                bingoGrid.innerHTML = "";
+                if (players.length > 0) {
+                    document.getElementById("setup").style.display = "none";
+                    document.getElementById("bingo-card").style.display = "block";
+                    document.getElementById("title").textContent = players.length === 1 ? 'Helldiver, these are your assigned stratagems.' : 'Helldivers, these are your assigned stratagems.';
 
-                for (let i = 0; i < 4; i++) {
-                    const cell = document.createElement("div");
-                    cell.className = "bingo-cell";
-                    const img = document.createElement("img");
-                    img.src = filteredStratagems[i].image;
-                    img.alt = filteredStratagems[i].name;
-                    const text = document.createElement("span");
-                    text.textContent = filteredStratagems[i].name.replace(/_/g, ' ');
-                    cell.appendChild(img);
-                    cell.appendChild(text);
-                    bingoGrid.appendChild(cell);
+                    const bingoGrids = document.getElementById("bingo-grids");
+                    bingoGrids.innerHTML = "";
+
+                    players.forEach(player => {
+                        const filteredStratagems = filterStratagemsByLevel(stratagems, player.level);
+                        shuffleArray(filteredStratagems);
+
+                        const playerDiv = document.createElement("div");
+                        playerDiv.className = "player-section";
+
+                        const playerTitle = document.createElement("h4");
+                        playerTitle.textContent = `${player.name}'s Stratagems:`;
+                        playerDiv.appendChild(playerTitle);
+
+                        const bingoGrid = document.createElement("div");
+                        bingoGrid.className = "bingo-grid";
+
+                        for (let i = 0; i < 4; i++) {
+                            const cell = document.createElement("div");
+                            cell.className = "bingo-cell";
+                            const img = document.createElement("img");
+                            img.src = filteredStratagems[i].image;
+                            img.alt = filteredStratagems[i].name;
+                            const text = document.createElement("span");
+                            text.textContent = filteredStratagems[i].name.replace(/_/g, ' ');
+                            cell.appendChild(img);
+                            cell.appendChild(text);
+                            bingoGrid.appendChild(cell);
+                        }
+
+                        playerDiv.appendChild(bingoGrid);
+                        bingoGrids.appendChild(playerDiv);
+                    });
                 }
             });
         });
 });
 
 function printBingoCard() {
-    const stratagems = Array.from(document.querySelectorAll('.bingo-cell img')).map(img => img.alt);
-    const stratagemImages = Array.from(document.querySelectorAll('.bingo-cell img')).map(img => img.src);
-
     const printWindow = window.open('', '', 'width=320,height=800');
     printWindow.document.write(`
         <html>
@@ -75,8 +101,9 @@ function printBingoCard() {
         <body>
     `);
 
-    stratagems.forEach((stratagem, index) => {
-        printWindow.document.write(`<div class="bingo-cell"><img src="${stratagemImages[index]}" alt="${stratagem}"><span>${stratagem.replace(/_/g, ' ')}</span></div>`);
+    const playerSections = Array.from(document.querySelectorAll('.player-section'));
+    playerSections.forEach(section => {
+        printWindow.document.write(section.innerHTML);
     });
 
     printWindow.document.write(`
@@ -89,9 +116,6 @@ function printBingoCard() {
 }
 
 function printMiniBingoCard() {
-    const stratagems = Array.from(document.querySelectorAll('.bingo-cell img')).map(img => img.alt);
-    const stratagemImages = Array.from(document.querySelectorAll('.bingo-cell img')).map(img => img.src);
-
     const printWindow = window.open('', '', 'width=320,height=400');
     printWindow.document.write(`
         <html>
@@ -125,8 +149,9 @@ function printMiniBingoCard() {
         <body>
     `);
 
-    stratagems.forEach((stratagem, index) => {
-        printWindow.document.write(`<div class="bingo-cell"><img src="${stratagemImages[index]}" alt="${stratagem}"><span>${stratagem.replace(/_/g, ' ')}</span></div>`);
+    const playerSections = Array.from(document.querySelectorAll('.player-section'));
+    playerSections.forEach(section => {
+        printWindow.document.write(section.innerHTML);
     });
 
     printWindow.document.write(`
